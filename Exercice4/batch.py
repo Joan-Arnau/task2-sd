@@ -4,10 +4,10 @@ import re
 import concurrent.futures
 
 
-S3_INPUT_BUCKET_NAME = 'xavi-task2'
+S3_INPUT_BUCKET_NAME = 'joanarnau-lithops'
 S3_INPUT_PREFIX = 'input/'
 
-S3_OUTPUT_BUCKET_NAME = 'xavi-task2'
+S3_OUTPUT_BUCKET_NAME = 'joanarnau-lithops'
 S3_OUTPUT_PREFIX = 'output/'
 
 INSULTS_LIST = [
@@ -169,7 +169,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Basic batch operation with Lithops")
     parser.add_argument('--function', help='Function name, default is censor_file_task', default='censor_file_task')
     parser.add_argument('--maxfunc', type=int, help='Max parallel message processing, default is 2', default=2)
-    parser.add_argument('--bucket', help='S3 bucket name, default is xavi-task2', default='xavi-task2')
+    parser.add_argument('--bucket', help='S3 bucket name, default is joanarnau-lithops', default='joanarnau-lithops')
 
     args = parser.parse_args()
 
