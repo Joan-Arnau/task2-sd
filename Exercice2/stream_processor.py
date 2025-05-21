@@ -7,8 +7,8 @@ import argparse
 
 # --- Configuration ---
 RABBITMQ_HOST = 'localhost'        # RabbitMQ server IP or hostname
-RABBITMQ_USER = 'user'             # RabbitMQ username
-RABBITMQ_PASS = 'password123'      # RabbitMQ password
+RABBITMQ_USER = 'guest'             # RabbitMQ username
+RABBITMQ_PASS = 'guest'             # RabbitMQ password
 LAMBDA_AWS_REGION = 'us-east-1'    # AWS Region of Lambda function
 
 # Event to signal shutdown to all threads

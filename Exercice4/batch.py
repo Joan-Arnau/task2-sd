@@ -58,7 +58,7 @@ def censor_file_task(data, storage):
     insult_count_for_file = 0
     for word in file_content.split():
         # Separate word from punctuation
-        match = re.match(r"^([\"'(\[{<]*)(\w+)([\"')\]}>.,!?;:]*)$", word)
+        match = re.match(r"^([^\w]*)([\wÀ-ÿ]+)([^\w]*)$", word)
         if match:
             prefix, core_word, suffix = match.groups()
             clean_word = core_word.lower()

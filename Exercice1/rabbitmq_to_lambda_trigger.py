@@ -6,8 +6,8 @@ import os
 # Configuration
 RABBITMQ_HOST = 'localhost'  # IP of RabbitMQ server
 RABBITMQ_QUEUE = 'texts_to_filter_queue' # Consistent queue name
-RABBITMQ_USER = 'user' # RabbitMQ user
-RABBITMQ_PASS = 'password123' # RabbitMQ password
+RABBITMQ_USER = 'guest' # RabbitMQ user
+RABBITMQ_PASS = 'guest' # RabbitMQ password
 
 LAMBDA_FUNCTION_NAME = 'InsultFilterWorkerLambda' # Name of the Lambda function
 AWS_REGION = 'us-east-1'  # Or the region where you created the Lambda

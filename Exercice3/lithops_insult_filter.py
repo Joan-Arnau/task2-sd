@@ -2,10 +2,10 @@ import lithops
 import re
 
 
-S3_INPUT_BUCKET_NAME = 'xavi-task2'
+S3_INPUT_BUCKET_NAME = 'joanarnau-lithops'
 S3_INPUT_PREFIX = 'input/'
 
-S3_OUTPUT_BUCKET_NAME = 'xavi-task2'
+S3_OUTPUT_BUCKET_NAME = 'joanarnau-lithops'
 S3_OUTPUT_PREFIX = 'output/'
 
 
@@ -29,7 +29,7 @@ def map_censor_and_count(obj, storage):
     insult_count_for_file = 0
     for word in file_content.split():
         # Separate word from punctuation
-        match = re.match(r"^([\"'(\[{<]*)(\w+)([\"')\]}>.,!?;:]*)$", word)
+        match = re.match(r"^([^\w]*)([\wÀ-ÿ]+)([^\w]*)$", word)
         if match:
             prefix, core_word, suffix = match.groups()
             clean_word = core_word.lower()

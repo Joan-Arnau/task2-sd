@@ -3,8 +3,8 @@ import sys
 
 RABBITMQ_HOST = 'localhost'
 RABBITMQ_QUEUE = 'texts_to_filter_queue'
-RABBITMQ_USER = 'user'
-RABBITMQ_PASS = 'password123'
+RABBITMQ_USER = 'guest'
+RABBITMQ_PASS = 'guest'
 
 def send_message(text_to_send):
     try:

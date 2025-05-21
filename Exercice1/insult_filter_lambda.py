@@ -1,4 +1,5 @@
 import json
+import re
 
 # Initial list of insults
 INITIAL_INSULTS = [
@@ -8,15 +9,22 @@ INITIAL_INSULTS = [
 ]
 
 def filter_text_logic(text_to_filter, insults_list):
-    censored_text = []
+    censored_words = []
     words_censored_count = 0
     for word in text_to_filter.split():
-        if word.lower() in insults_list:
-            censored_text.append("CENSORED")
+        match = re.match(r"^([^\w]*)([\wÀ-ÿ]+)([^\w]*)$", word)
+        if match:
+            prefix, core_word, suffix = match.groups()
+            clean_word = core_word.lower()
+        else:
+            prefix, core_word, suffix = '', word, ''
+            clean_word = word.lower()
+        if clean_word in insults_list:
+            censored_words.append(f"{prefix}CENSORED{suffix}")
             words_censored_count += 1
         else:
-            censored_text.append(word)
-    return " ".join(censored_text), words_censored_count
+            censored_words.append(word)
+    return " ".join(censored_words), words_censored_count
 
 def lambda_handler(event, context):
     try:
