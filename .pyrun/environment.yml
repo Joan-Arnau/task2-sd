@@ -1,0 +1,22 @@
+# Welcome to PyRun!
+
+# Need to install more packages? Just edit this file.
+
+# Add packages from conda-forge under "dependencies:"
+# Packages from PyPI should be added under "pip:"
+
+# Make sure you keep the "$LITHOPS" package if you want to use lithops.
+# After saving the file, please click "Yes" on the rebuild runtime notification,
+# then wait for the runtime build to finish.
+
+name: base
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - ipykernel
+  - ipywidgets
+  - git
+
+  - pip:
+    - $LITHOPS
