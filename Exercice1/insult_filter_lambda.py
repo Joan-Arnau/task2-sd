@@ -1,0 +1,58 @@
+import json
+
+# Initial list of insults
+INITIAL_INSULTS = [
+    "tonto", "lleig", "boig", "idiota", "estúpid", "inútil", "desastre",
+    "fracassat", "covard", "mentider", "beneit", "capsigrany", "ganàpia",
+    "nyicris", "gamarús", "bocamoll", "murri", "dropo", "bleda", "xitxarel·lo"
+]
+
+def filter_text_logic(text_to_filter, insults_list):
+    censored_text = []
+    words_censored_count = 0
+    for word in text_to_filter.split():
+        if word.lower() in insults_list:
+            censored_text.append("CENSORED")
+            words_censored_count += 1
+        else:
+            censored_text.append(word)
+    return " ".join(censored_text), words_censored_count
+
+def lambda_handler(event, context):
+    try:
+        # The EC2 script will send a payload: {'text_to_filter': 'some text'}
+        text_to_filter = event.get('text_to_filter')
+
+        if not text_to_filter:
+            print("Error: No 'text_to_filter' provided in the event.")
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': "No 'text_to_filter' provided."})
+            }
+
+        print(f"Received text for filtering: '{text_to_filter}'")
+        
+        censored_version, count = filter_text_logic(text_to_filter, INITIAL_INSULTS)
+        
+        print(f"Original: '{text_to_filter}' -> Censored: '{censored_version}' (Words censored: {count})")
+
+        # What Lambda returns can be useful for logs or if the invoker was synchronous.
+        # For asynchronous invocation ('Event'), this return does not go directly to the RabbitMQ invoker.
+        return {
+            'statusCode': 200,
+            'body': json.dumps({
+                'original_text': text_to_filter,
+                'censored_text': censored_version,
+                'words_censored': count,
+                'message': 'Text filtered successfully by Lambda.'
+            })
+        }
+    except Exception as e:
+        print(f"Error in lambda_handler: {str(e)}")
+        # Error details for CloudWatch Logs
+        import traceback
+        traceback.print_exc()
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': str(e)})
+        }
