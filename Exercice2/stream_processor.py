@@ -55,7 +55,6 @@ def message_processing_task(delivery_tag, message_body_str, processing_lambda_na
     else:
         print(f"Thread {threading.get_ident()}: Lambda invocation failed for {delivery_tag}. Scheduling Nack (requeue=False).")
         if pika_connection and pika_connection.is_open and pika_channel and pika_channel.is_open:
-            # Decide on requeue strategy. False: moves to DLX if configured, or drops.
             pika_connection.add_callback_threadsafe(lambda: pika_channel.basic_nack(delivery_tag=delivery_tag, requeue=False))
         else:
             print(f"Thread {threading.get_ident()}: Pika connection/channel closed. Cannot Nack message {delivery_tag}.")
@@ -86,7 +85,7 @@ def stream_operation(
         params = pika.ConnectionParameters(
             host=rabbitmq_host,
             credentials=credentials,
-            heartbeat=600,  # Heartbeat interval in seconds
+            heartbeat=600,  # Heartbeat interval in seconds. If someone is idle for this long, the connection will be closed.
             blocked_connection_timeout=300 # Timeout for blocked connection
         )
         pika_connection = pika.BlockingConnection(params)
