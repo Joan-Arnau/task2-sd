@@ -26,7 +26,7 @@ def invoke_filter_lambda(text_message_body):
         print(f"Invoking Lambda '{LAMBDA_FUNCTION_NAME}' with payload: {payload_for_lambda}")
         response = lambda_client.invoke(
             FunctionName=LAMBDA_FUNCTION_NAME,
-            InvocationType='Event',  # Asynchronous. We do not wait for the Lambda response here. Síncrono would be 'RequestResponse'.
+            InvocationType='Event',  # Asynchronous. We do not wait for the Lambda response here. Synchronous would be 'RequestResponse'.
             Payload=payload_for_lambda
         )
         # For 'Event', StatusCode 202 means the request has been accepted for processing.
