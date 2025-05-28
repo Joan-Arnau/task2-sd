@@ -1,14 +1,12 @@
 import json
 import re
-import sys
-import os
 
-# Add the parent directory of 'conf' to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from conf import conf
-
-# Initial list of insults from conf.py
-INITIAL_INSULTS = conf.INSULTS_LIST
+# Initial list of insults
+INITIAL_INSULTS = [
+    "tonto", "lleig", "boig", "idiota", "estúpid", "inútil", "desastre",
+    "fracassat", "covard", "mentider", "beneit", "capsigrany", "ganàpia",
+    "nyicris", "gamarús", "bocamoll", "murri", "dropo", "bleda", "xitxarel·lo"
+]
 
 def filter_text_logic(text_to_filter, insults_list):
     censored_words = []
