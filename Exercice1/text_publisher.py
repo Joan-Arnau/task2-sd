@@ -1,10 +1,16 @@
 import pika
 import sys
+import os
 
-RABBITMQ_HOST = 'localhost'
-RABBITMQ_QUEUE = 'texts_to_filter_queue'
-RABBITMQ_USER = 'guest'
-RABBITMQ_PASS = 'guest'
+# Add the parent directory of 'conf' to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from conf import conf
+
+# Configuration from conf.py
+RABBITMQ_HOST = conf.RABBITMQ_HOST
+RABBITMQ_QUEUE = conf.RABBITMQ_QUEUE
+RABBITMQ_USER = conf.RABBITMQ_USER
+RABBITMQ_PASS = conf.RABBITMQ_PASS
 
 def send_message(text_to_send):
     try:

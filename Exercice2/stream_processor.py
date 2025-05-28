@@ -4,12 +4,18 @@ import boto3
 import concurrent.futures
 import threading
 import argparse
+import sys
+import os
 
-# --- Configuration ---
-RABBITMQ_HOST = 'localhost'        # RabbitMQ server IP or hostname
-RABBITMQ_USER = 'guest'             # RabbitMQ username
-RABBITMQ_PASS = 'guest'             # RabbitMQ password
-LAMBDA_AWS_REGION = 'us-east-1'    # AWS Region of Lambda function
+# Add the parent directory of 'conf' to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from conf import conf
+
+# --- Configuration from conf.py ---
+RABBITMQ_HOST = conf.RABBITMQ_HOST
+RABBITMQ_USER = conf.RABBITMQ_USER
+RABBITMQ_PASS = conf.RABBITMQ_PASS
+LAMBDA_AWS_REGION = conf.AWS_REGION
 
 # Event to signal shutdown to all threads
 shutdown_event = threading.Event()
@@ -184,9 +190,9 @@ def stream_operation(
 # --- Example Usage ---
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Stream processor for RabbitMQ -> AWS Lambda")
-    parser.add_argument('--function', help='AWS Lambda function name, default is InsultFilterWorkerLambda', default='InsultFilterWorkerLambda')
+    parser.add_argument('--function', help=f'AWS Lambda function name, default is {conf.LAMBDA_FUNCTION_NAME}', default=conf.LAMBDA_FUNCTION_NAME)
     parser.add_argument('--maxfunc', type=int, help='Max parallel message processing, default is 2', default=2)
-    parser.add_argument('--queue', help='RabbitMQ queue name, default is texts_to_filter_queue', default='texts_to_filter_queue')
+    parser.add_argument('--queue', help=f'RabbitMQ queue name, default is {conf.RABBITMQ_QUEUE}', default=conf.RABBITMQ_QUEUE)
 
     args = parser.parse_args()
     # Configuration for the stream operation

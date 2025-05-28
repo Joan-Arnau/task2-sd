@@ -2,19 +2,21 @@ import argparse
 import lithops
 import re
 import concurrent.futures
+import sys
+import os
 
+# Add the parent directory of 'conf' to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from conf import conf
 
-S3_INPUT_BUCKET_NAME = 'joanarnau-lithops'
-S3_INPUT_PREFIX = 'input/'
+# S3 Configuration from conf.py
+S3_INPUT_BUCKET_NAME = conf.S3_BUCKET_NAME
+S3_INPUT_PREFIX = conf.S3_INPUT_PREFIX
+S3_OUTPUT_BUCKET_NAME = conf.S3_BUCKET_NAME # Assuming same bucket for output
+S3_OUTPUT_PREFIX = conf.S3_OUTPUT_PREFIX
 
-S3_OUTPUT_BUCKET_NAME = 'joanarnau-lithops'
-S3_OUTPUT_PREFIX = 'output/'
-
-INSULTS_LIST = [
-    "tonto", "lleig", "boig", "idiota", "estúpid", "inútil", "desastre",
-    "fracassat", "covard", "mentider", "beneit", "capsigrany", "ganàpia",
-    "nyicris", "gamarús", "bocamoll", "murri", "dropo", "bleda", "xitxarel·lo"
-]
+# Insults List from conf.py
+INSULTS_LIST = conf.INSULTS_LIST
 
 def reduce_sum_insults(list_of_counts):
     print(f"[ReduceTask] Starting reduction with results: {list_of_counts}")
@@ -169,12 +171,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Basic batch operation with Lithops")
     parser.add_argument('--function', help='Function name, default is censor_file_task', default='censor_file_task')
     parser.add_argument('--maxfunc', type=int, help='Max parallel message processing, default is 2', default=2)
-    parser.add_argument('--bucket', help='S3 bucket name, default is joanarnau-lithops', default='joanarnau-lithops')
+    parser.add_argument('--bucket', help=f'S3 bucket name, default is {conf.S3_BUCKET_NAME}', default=conf.S3_BUCKET_NAME)
 
     args = parser.parse_args()
 
     print(f"Configuration: maxfunc = {args.maxfunc}")
-    print(f"Input bucket: s3://{args.bucket}/{S3_INPUT_PREFIX}")
+    # Use S3_INPUT_BUCKET_NAME and S3_OUTPUT_BUCKET_NAME directly as they are now from conf
+    print(f"Input bucket: s3://{args.bucket}/{S3_INPUT_PREFIX}") 
     print(f"Output bucket: s3://{args.bucket}/{S3_OUTPUT_PREFIX}")
 
     # Map function names to actual function references
@@ -191,9 +194,9 @@ if __name__ == '__main__':
         list_of_insult_counts = basic_batch_operation(
             processing_function=processing_function,
             max_concurrent_executions=args.maxfunc,
-            input_bucket=args.bucket,
+            input_bucket=args.bucket, # This will use the argument or default from conf
             input_prefix=S3_INPUT_PREFIX,
-            output_bucket=args.bucket,
+            output_bucket=args.bucket, # This will use the argument or default from conf
             output_prefix=S3_OUTPUT_PREFIX,
             insults_list_param=INSULTS_LIST
         )

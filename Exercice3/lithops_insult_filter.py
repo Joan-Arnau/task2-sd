@@ -1,19 +1,20 @@
 import lithops
 import re
+import sys
+import os
 
+# Add the parent directory of 'conf' to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from conf import conf
 
-S3_INPUT_BUCKET_NAME = 'joanarnau-lithops'
-S3_INPUT_PREFIX = 'input/'
+# S3 Configuration from conf.py
+S3_INPUT_BUCKET_NAME = conf.S3_BUCKET_NAME
+S3_INPUT_PREFIX = conf.S3_INPUT_PREFIX
+S3_OUTPUT_BUCKET_NAME = conf.S3_BUCKET_NAME # Assuming same bucket for output
+S3_OUTPUT_PREFIX = conf.S3_OUTPUT_PREFIX
 
-S3_OUTPUT_BUCKET_NAME = 'joanarnau-lithops'
-S3_OUTPUT_PREFIX = 'output/'
-
-
-INSULTS_LIST = [
-    "tonto", "lleig", "boig", "idiota", "estúpid", "inútil", "desastre",
-    "fracassat", "covard", "mentider", "beneit", "capsigrany", "ganàpia",
-    "nyicris", "gamarús", "bocamoll", "murri", "dropo", "bleda", "xitxarel·lo"
-]
+# Insults List from conf.py
+INSULTS_LIST = conf.INSULTS_LIST
 
 def map_censor_and_count(obj, storage):
     input_bucket = obj.bucket

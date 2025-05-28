@@ -2,15 +2,19 @@ import pika
 import json
 import boto3
 import os
+import sys
 
-# Configuration
-RABBITMQ_HOST = 'localhost'  # IP of RabbitMQ server
-RABBITMQ_QUEUE = 'texts_to_filter_queue' # Consistent queue name
-RABBITMQ_USER = 'guest' # RabbitMQ user
-RABBITMQ_PASS = 'guest' # RabbitMQ password
+# Add the parent directory of 'conf' to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from conf import conf
 
-LAMBDA_FUNCTION_NAME = 'InsultFilterWorkerLambda' # Name of the Lambda function
-AWS_REGION = 'us-east-1'
+# Configuration from conf.py
+RABBITMQ_HOST = conf.RABBITMQ_HOST
+RABBITMQ_QUEUE = conf.RABBITMQ_QUEUE
+RABBITMQ_USER = conf.RABBITMQ_USER
+RABBITMQ_PASS = conf.RABBITMQ_PASS
+LAMBDA_FUNCTION_NAME = conf.LAMBDA_FUNCTION_NAME
+AWS_REGION = conf.AWS_REGION
 
 # Lambda client
 lambda_client = boto3.client('lambda', region_name=AWS_REGION)
