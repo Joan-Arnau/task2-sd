@@ -10,7 +10,7 @@ RABBITMQ_USER = 'guest' # RabbitMQ user
 RABBITMQ_PASS = 'guest' # RabbitMQ password
 
 LAMBDA_FUNCTION_NAME = 'InsultFilterWorkerLambda' # Name of the Lambda function
-AWS_REGION = 'us-east-1'  # Or the region where you created the Lambda
+AWS_REGION = 'us-east-1'
 
 # Lambda client
 lambda_client = boto3.client('lambda', region_name=AWS_REGION)
@@ -19,14 +19,14 @@ def invoke_filter_lambda(text_message_body):
     """
     Invokes the Lambda function InsultFilterWorkerLambda asynchronously.
     """
-    # The payload expected by our simplified Lambda
+    # The payload expected by the Lambda
     payload_for_lambda = json.dumps({'text_to_filter': text_message_body})
     
     try:
         print(f"Invoking Lambda '{LAMBDA_FUNCTION_NAME}' with payload: {payload_for_lambda}")
         response = lambda_client.invoke(
             FunctionName=LAMBDA_FUNCTION_NAME,
-            InvocationType='Event',  # Asynchronous. We do not wait for the Lambda response here.
+            InvocationType='Event',  # Asynchronous. We do not wait for the Lambda response here. Synchronous would be 'RequestResponse'.
             Payload=payload_for_lambda
         )
         # For 'Event', StatusCode 202 means the request has been accepted for processing.
