@@ -194,9 +194,9 @@ if __name__ == '__main__':
         list_of_insult_counts = basic_batch_operation(
             processing_function=processing_function,
             max_concurrent_executions=args.maxfunc,
-            input_bucket=args.bucket, # This will use the argument or default from conf
+            input_bucket=args.bucket,
             input_prefix=S3_INPUT_PREFIX,
-            output_bucket=args.bucket, # This will use the argument or default from conf
+            output_bucket=args.bucket,
             output_prefix=S3_OUTPUT_PREFIX,
             insults_list_param=INSULTS_LIST
         )

@@ -7,7 +7,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from conf import conf
 
-# Initial list of insults - now from conf.py
+# Initial list of insults from conf.py
 INITIAL_INSULTS = conf.INSULTS_LIST
 
 def filter_text_logic(text_to_filter, insults_list):
