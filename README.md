@@ -5,11 +5,48 @@
 ### Centralized Configuration
 All global parameters for RabbitMQ, AWS Lambda, S3, and the list of insults are defined in the `conf/conf.py` file. If you need to change any of these settings (e.g., RabbitMQ host, AWS region, S3 bucket name, Lambda function name), please modify this central configuration file.
 
+### Launch AWS Academy Learner Lab
+To run the exercises, you need to launch an AWS Academy Learner Lab.
+
+### Create a Pyrun Workspace
+First you need to link your AWS and GitHub account to Pyrun.
+
+Then you have to create a Pyrun workspace. 
+
+Select t3a.medium as the instance type, and choose the template Lithops.
+
+### Launch the Pyrun Workspace
+Once the Pyrun workspace is created, you can launch it. This will provide you with a terminal and an environment to run the exercises.
+
+### Clone the repository
+Clone the repository to your Pyrun workspace.
+
+First navigate to the `/` directory:
+```
+cd /
+```
+
+Then remove the existing contents of the `work` directory:
+```
+rm -r work
+```
+
+Then clone the repository:
+
+```
+git clone https://github.com/Joan-Arnau/task2-sd work
+```
+
+Go to the cloned directory:
+```
+cd work
+```
+
 ### Preparing the lambda
 First you have to create a lambda in your AWS Environment. Name it according to the `LAMBDA_FUNCTION_NAME` variable in `conf/conf.py` (default is `InsultFilterWorkerLambda`).
 Choose the Runtime "Python 3.13" when creating the Lambda.
 Use an existing role in Execution role.
-Then you have to paste the code from the file `Exercice1/insult_filter_lambda.py` into the created lambda.
+Then you have to paste the code from the file `Exercice1/insult_filter_lambda.py` into the created lambda. Save the changes and deploy the Lambda function.
 
 ### Preparing the S3 bucket
 Create an S3 bucket and set its name according to the `S3_BUCKET_NAME` variable in `conf/conf.py`, it must be a unique name. You also have to create two folders inside the bucket, corresponding to `S3_INPUT_PREFIX` (default: "input/") and `S3_OUTPUT_PREFIX` (default: "output/").
